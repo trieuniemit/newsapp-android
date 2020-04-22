@@ -1,6 +1,5 @@
 package com.newsapp.helpers
 
-import android.app.Activity
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
@@ -10,13 +9,13 @@ import com.newsapp.models.Post
 import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.LayoutInflater
-import android.widget.TextView
 import com.newsapp.R
+import com.squareup.picasso.Picasso
 import org.jetbrains.anko.doAsync
 import java.net.URL
 
 
-class LargeArticleAdapter(var context: Activity, var articles: ArrayList<Post>): BaseAdapter() {
+class LargeArticleAdapter(var context: Context, var articles: ArrayList<Post>): BaseAdapter() {
 
     private val inflater = LayoutInflater.from(context)
 
@@ -33,11 +32,14 @@ class LargeArticleAdapter(var context: Activity, var articles: ArrayList<Post>):
         val thumb = view!!.findViewById<ImageView>(R.id.Thumbnail)
 
 
-        doAsync {
-            val url = URL(post.thumb)
-            val bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream())
-            thumb.setImageBitmap(bmp)
-        }
+//        doAsync {
+//            val url = URL(post.thumb)
+//            val bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream())
+//            thumb.setImageBitmap(bmp)
+//        }
+
+        Picasso.with(context).load(post.thumb).into(thumb)
+
 
 //        val datetime = view.findViewById<TextView>(R.id.DateTime)
 //        datetime.text = post.dateTime
