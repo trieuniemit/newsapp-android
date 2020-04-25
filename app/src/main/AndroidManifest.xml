@@ -13,9 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity
-            android:name=".views.activities.HomeActivity"
-            android:label="@string/title_activity_main"></activity>
 
         <activity android:name=".MainActivity">
             <intent-filter>

@@ -2,13 +2,12 @@ package com.newsapp.services
 
 import android.util.Log
 import com.newsapp.constants.API_KEY
-import com.newsapp.constants.API_URL
 import okhttp3.*
-import org.jetbrains.anko.doAsync
+
 import org.json.JSONObject
-import java.io.IOException
+
 import java.lang.Exception
-import java.util.*
+
 import kotlin.collections.HashMap
 
 class RequestTypes {
@@ -20,8 +19,7 @@ class RequestTypes {
     }
 }
 
-class ApiService(var url: String, var method: String, var body: HashMap<String, Any> = HashMap()) {
-
+class ApiService(var url: String, var method: String = RequestTypes.GET, var body: HashMap<String, Any> = HashMap()) {
 
     fun execute(): JSONObject {
 
@@ -54,9 +52,7 @@ class ApiService(var url: String, var method: String, var body: HashMap<String, 
 
         return try {
             val response = client.newCall(request.build()).execute()
-//            if(!response.isSuccessful) {
-//                throw Exception("Error when request")
-//            }
+
             JSONObject(response.body()?.string())
         } catch (e: Exception) {
             Log.d("ApiService: Error", "${e.message}")
@@ -64,6 +60,6 @@ class ApiService(var url: String, var method: String, var body: HashMap<String, 
             JSONObject("{\"error\": \"${e.message}\"}")
         }
 
-    }
 
+    }
 }

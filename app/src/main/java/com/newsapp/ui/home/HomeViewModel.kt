@@ -4,11 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.newsapp.constants.API_URL
+import com.newsapp.constants.RSS_URL
 import com.newsapp.constants.TOP_HEADLINE
+import com.newsapp.constants.WORLD_NEWS
 import com.newsapp.models.Post
 import com.newsapp.services.ApiService
 import com.newsapp.services.RequestTypes
 import org.jetbrains.anko.doAsync
+
 
 class HomeViewModel : ViewModel() {
 
@@ -20,6 +23,7 @@ class HomeViewModel : ViewModel() {
     init {
         doAsync {
             getHeadlineArticles()
+            //ApiService.readText(RSS_URL+ WORLD_NEWS)
         }
     }
 
@@ -38,6 +42,10 @@ class HomeViewModel : ViewModel() {
             headlineArticles.add(post)
         }
         _headlineArticles.postValue(headlineArticles)
+    }
+
+    private fun getWorldNews() {
+
     }
 
 }

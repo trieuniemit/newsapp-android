@@ -1,4 +1,4 @@
-package com.newsapp.helpers
+package com.newsapp.adapters
 
 import android.content.Context
 import android.view.View
@@ -6,16 +6,14 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import com.newsapp.models.Post
-import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.LayoutInflater
+import android.widget.TextView
 import com.newsapp.R
 import com.squareup.picasso.Picasso
-import org.jetbrains.anko.doAsync
-import java.net.URL
 
 
-class LargeArticleAdapter(var context: Context, var articles: ArrayList<Post>): BaseAdapter() {
+class LargeArticleAdapter(private var context: Context, var articles: ArrayList<Post>): BaseAdapter() {
 
     private val inflater = LayoutInflater.from(context)
 
@@ -25,24 +23,22 @@ class LargeArticleAdapter(var context: Context, var articles: ArrayList<Post>): 
         var view = convertView
 
         if(view == null) {
-            view = inflater.inflate(R.layout.item_large_arcticle, parent, false)
+            view = inflater.inflate(R.layout.adapter_large_arcticle, parent, false)
         }
 
         // thumbnail
         val thumb = view!!.findViewById<ImageView>(R.id.Thumbnail)
 
-
-//        doAsync {
-//            val url = URL(post.thumb)
-//            val bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream())
-//            thumb.setImageBitmap(bmp)
-//        }
-
         Picasso.with(context).load(post.thumb).into(thumb)
 
+        var title = view.findViewById<TextView>(R.id.PostTitle)
+        title.text = post.title
 
-//        val datetime = view.findViewById<TextView>(R.id.DateTime)
-//        datetime.text = post.dateTime
+        var dateTime = view.findViewById<TextView>(R.id.PostDateTime)
+        dateTime.text = post.dateTime
+
+        var description = view.findViewById<TextView>(R.id.PostDescription)
+        description.text = post.desc
 
         return view
     }
