@@ -10,7 +10,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.widget.TextView
 import com.newsapp.R
-import com.squareup.picasso.Picasso
+import android.graphics.BitmapFactory
+import org.jetbrains.anko.doAsync
+import java.lang.Exception
+import java.net.URL
 
 
 class LargeArticleAdapter(private var context: Context, var articles: ArrayList<Post>): BaseAdapter() {
@@ -27,18 +30,27 @@ class LargeArticleAdapter(private var context: Context, var articles: ArrayList<
         }
 
         // thumbnail
-        val thumb = view!!.findViewById<ImageView>(R.id.Thumbnail)
+        if(post.thumb.isNotEmpty()) {
+            val thumb = view!!.findViewById<ImageView>(R.id.Thumbnail)
+            doAsync {
+                try {
+                    val img = URL(post.thumb).openStream()
+                    var bitmap = BitmapFactory.decodeStream(img)
+                    thumb.setImageBitmap(bitmap)
+                }catch (e: Exception) {
+                    Log.d("Large List", e.toString())
+                }
+            }
+        }
 
-        Picasso.with(context).load(post.thumb).into(thumb)
-
-        var title = view.findViewById<TextView>(R.id.PostTitle)
+        var title = view!!.findViewById<TextView>(R.id.PostTitle)
         title.text = post.title
 
         var dateTime = view.findViewById<TextView>(R.id.PostDateTime)
         dateTime.text = post.dateTime
 
         var description = view.findViewById<TextView>(R.id.PostDescription)
-        description.text = post.desc
+        description.text = post.description
 
         return view
     }

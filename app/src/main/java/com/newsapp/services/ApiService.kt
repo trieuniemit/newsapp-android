@@ -2,13 +2,16 @@ package com.newsapp.services
 
 import android.util.Log
 import com.newsapp.constants.API_KEY
+import com.newsapp.constants.API_URL
+import com.newsapp.constants.RSS_URL
+import com.newsapp.constants.WORLD_NEWS
 import okhttp3.*
-
 import org.json.JSONObject
-
 import java.lang.Exception
-
 import kotlin.collections.HashMap
+import fr.arnaudguyon.xmltojsonlib.XmlToJson
+
+
 
 class RequestTypes {
     companion object {
@@ -21,45 +24,30 @@ class RequestTypes {
 
 class ApiService(var url: String, var method: String = RequestTypes.GET, var body: HashMap<String, Any> = HashMap()) {
 
-    fun execute(): JSONObject {
+    companion object {
 
-        val client = OkHttpClient()
+        fun readRss(url: String): JSONObject? {
+            val client = OkHttpClient()
 
-        url += "?"
+            Log.d("API", "$url=============================")
 
-        body["apiKey"] = API_KEY
+            val request = Request.Builder().url(url)
 
-        var request = Request.Builder()
-
-        request = if (method == RequestTypes.GET) {
-
-            for((k, v) in body) {
-                url += "$k=$v&"
-            }
-            url = url.dropLast(1)
-
-            Log.d("ApiService", "Get to $url ==============")
-            request.url(url)
-
-        } else {
-            Log.d("ApiService", "$method to $url ==============")
-
-            request.url(url).method(
-                method,
-                RequestBody.create(null, JSONObject(body.toMap()).toString())
-            )
-        }
-
-        return try {
             val response = client.newCall(request.build()).execute()
 
-            JSONObject(response.body()?.string())
-        } catch (e: Exception) {
-            Log.d("ApiService: Error", "${e.message}")
+            var content = response.body()?.string()!!
 
-            JSONObject("{\"error\": \"${e.message}\"}")
+            val xmlToJson = XmlToJson.Builder(content)
+                .skipTag("channel/description")
+                .skipTag("channel/link")
+                .skipTag("channel/category")
+                .skipTag("channel/description")
+                .skipTag("channel/language")
+                .skipTag("channel/copyright")
+                .build()
+
+            return xmlToJson.toJson()!!.getJSONObject("rss").getJSONObject("channel")
         }
-
-
     }
+
 }

@@ -1,5 +1,6 @@
 package com.newsapp.ui.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,7 +10,6 @@ import com.newsapp.constants.TOP_HEADLINE
 import com.newsapp.constants.WORLD_NEWS
 import com.newsapp.models.Post
 import com.newsapp.services.ApiService
-import com.newsapp.services.RequestTypes
 import org.jetbrains.anko.doAsync
 
 
@@ -23,29 +23,22 @@ class HomeViewModel : ViewModel() {
     init {
         doAsync {
             getHeadlineArticles()
-            //ApiService.readText(RSS_URL+ WORLD_NEWS)
         }
     }
-
 
     private fun getHeadlineArticles() {
         var headlineArticles = ArrayList<Post>()
 
-        var params = HashMap<String, Any>()
-        params["country"] = "us"
+        var res = ApiService.readRss(RSS_URL+ WORLD_NEWS)
 
-        val res  = ApiService(API_URL + TOP_HEADLINE, RequestTypes.GET, params).execute()
-        var articleJSON = res.getJSONArray("articles")
+        var articleJSON = res!!.getJSONArray("item")
 
         for (i in 0 until articleJSON.length() ) {
             val post = Post.fromJson(articleJSON.getJSONObject(i))
             headlineArticles.add(post)
         }
+
         _headlineArticles.postValue(headlineArticles)
-    }
-
-    private fun getWorldNews() {
-
     }
 
 }
