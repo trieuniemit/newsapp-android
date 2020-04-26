@@ -26,7 +26,24 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_setting
             )
         )
+
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        navView.setOnNavigationItemSelectedListener {
+            if (!it.isChecked) {
+                when (it.itemId) {
+                    R.id.navigation_search -> {
+                        findNavController(R.id.nav_host_fragment)
+                            .navigate(R.id.navigation_search)
+                    }
+
+                    R.id.navigation_home -> {
+                        findNavController(R.id.nav_host_fragment)
+                            .navigate(R.id.navigation_home)
+                    }
+                }
+            }
+            false
+        }
     }
 }

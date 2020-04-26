@@ -2,6 +2,7 @@ package com.newsapp.activities.main.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,8 +21,16 @@ import kotlinx.serialization.json.Json
 class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
+
+
     private var headlineListView: ListView? = null
     private var loadingProgressBar: ProgressBar? = null
+
+    private var listObserver = Observer<ArrayList<Post>> {
+        var adapter = LargeArticleAdapter(activity?.applicationContext!!, it)
+        headlineListView!!.adapter = adapter
+        loadingProgressBar!!.visibility = View.INVISIBLE
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,11 +43,7 @@ class HomeFragment : Fragment() {
         loadingProgressBar = root.findViewById(R.id.LoadingProgressBar)
         headlineListView = root.findViewById(R.id.HeadlineListView)
 
-        homeViewModel.list.observe(viewLifecycleOwner, Observer {
-            var adapter = LargeArticleAdapter(activity?.applicationContext!!, it)
-            headlineListView!!.adapter = adapter
-            loadingProgressBar!!.visibility = View.INVISIBLE
-        })
+        homeViewModel.list.observe(viewLifecycleOwner, listObserver)
 
         headlineListView!!.setOnItemClickListener { parent, view, position, id ->
             var intent = Intent(context, DetailActivity::class.java)
@@ -50,5 +55,12 @@ class HomeFragment : Fragment() {
         }
 
         return root
+    }
+
+
+    override fun onDestroyView() {
+        Log.d("AAAAA", "Distroy=====")
+        super.onDestroyView()
+        homeViewModel.list.removeObserver(listObserver)
     }
 }
