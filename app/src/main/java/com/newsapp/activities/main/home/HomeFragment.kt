@@ -1,5 +1,6 @@
-package com.newsapp.ui.home
+package com.newsapp.activities.main.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.newsapp.R
+import com.newsapp.activities.detail.DetailActivity
 import com.newsapp.adapters.LargeArticleAdapter
-
+import com.newsapp.models.Post
+import kotlinx.serialization.json.Json
 
 
 class HomeFragment : Fragment() {
@@ -31,14 +34,21 @@ class HomeFragment : Fragment() {
         loadingProgressBar = root.findViewById(R.id.LoadingProgressBar)
         headlineListView = root.findViewById(R.id.HeadlineListView)
 
-        homeViewModel.text.observe(this, Observer {
+        homeViewModel.list.observe(viewLifecycleOwner, Observer {
             var adapter = LargeArticleAdapter(activity?.applicationContext!!, it)
             headlineListView!!.adapter = adapter
             loadingProgressBar!!.visibility = View.INVISIBLE
         })
 
+        headlineListView!!.setOnItemClickListener { parent, view, position, id ->
+            var intent = Intent(context, DetailActivity::class.java)
+
+            var post = homeViewModel.list.value!![position]
+            intent.putExtra("post", Json.stringify(Post.serializer(), post))
+
+            this.startActivity(intent)
+        }
+
         return root
     }
-
-
 }

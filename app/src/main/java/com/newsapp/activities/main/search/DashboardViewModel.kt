@@ -1,4 +1,4 @@
-package com.newsapp.ui.search
+package com.newsapp.activities.main.home.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -1,4 +1,4 @@
-package com.newsapp.ui.setting
+package com.newsapp.activities.main.setting
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

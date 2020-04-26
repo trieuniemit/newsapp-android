@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.newsapp.ui.home.HomeFragment"
+        android:name="com.newsapp.activities.main.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.newsapp.ui.search.DashboardFragment"
+        android:name="com.newsapp.activities.main.home.search.DashboardFragment"
         android:label="@string/title_search"
         tools:layout="@layout/fragment_search" />
 
     <fragment
         android:id="@+id/navigation_setting"
-        android:name="com.newsapp.ui.setting.NotificationsFragment"
+        android:name="com.newsapp.activities.main.setting.NotificationsFragment"
         android:label="@string/title_setting"
         tools:layout="@layout/fragment_setting" />
 </navigation>

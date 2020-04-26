@@ -16,7 +16,7 @@ import java.lang.Exception
 import java.net.URL
 
 
-class LargeArticleAdapter(private var context: Context, var articles: ArrayList<Post>): BaseAdapter() {
+class LargeArticleAdapter(context: Context, var articles: ArrayList<Post>): BaseAdapter() {
 
     private val inflater = LayoutInflater.from(context)
 
@@ -67,4 +67,6 @@ class LargeArticleAdapter(private var context: Context, var articles: ArrayList<
         Log.d("LargeArticleAdapter", "count: " + articles.size.toString())
         return articles.size
     }
+
+
 }

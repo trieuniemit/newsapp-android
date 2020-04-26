@@ -1,11 +1,11 @@
 package com.newsapp.models
 
-import android.util.Log
-import fr.arnaudguyon.xmltojsonlib.XmlToJson
+import kotlinx.serialization.Serializable
 import org.json.JSONObject
 import org.jsoup.Jsoup
 
-data class Post(
+@Serializable
+class Post (
     var id: Long,
     var title: String,
     var thumb: String,
@@ -17,7 +17,6 @@ data class Post(
         fun fromJson(jsonObj: JSONObject): Post {
             var descHtml = Jsoup.parse(jsonObj.getString("description"))
             var thumb = descHtml.getElementsByTag("img")
-//            Log.d("Thumb", thumb.attr("src"))
 
             return Post(
                 id = System.currentTimeMillis(),

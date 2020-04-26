@@ -1,28 +1,12 @@
-package com.newsapp.services
+package com.newsapp.helpers
 
 import android.util.Log
-import com.newsapp.constants.API_KEY
-import com.newsapp.constants.API_URL
-import com.newsapp.constants.RSS_URL
-import com.newsapp.constants.WORLD_NEWS
 import okhttp3.*
 import org.json.JSONObject
-import java.lang.Exception
-import kotlin.collections.HashMap
 import fr.arnaudguyon.xmltojsonlib.XmlToJson
 
 
-
-class RequestTypes {
-    companion object {
-        val GET = "GET"
-        val POST = "POST"
-        val PUT = "PUT"
-        val DELETE = "DELETE"
-    }
-}
-
-class ApiService(var url: String, var method: String = RequestTypes.GET, var body: HashMap<String, Any> = HashMap()) {
+class RssReader(var url: String) {
 
     companion object {
 

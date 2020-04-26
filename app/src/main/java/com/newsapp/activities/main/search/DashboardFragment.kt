@@ -1,4 +1,4 @@
-package com.newsapp.ui.search
+package com.newsapp.activities.main.home.search
 
 import android.os.Bundle
 import android.view.LayoutInflater

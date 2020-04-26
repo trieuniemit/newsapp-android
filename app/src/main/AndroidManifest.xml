@@ -16,14 +16,17 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
 
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".activities.detail.DetailActivity"
+            android:label="@string/title_activity_detail">
+        </activity>
+
+        <activity android:name=".activities.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
