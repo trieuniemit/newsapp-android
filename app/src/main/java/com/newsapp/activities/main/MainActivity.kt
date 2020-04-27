@@ -1,6 +1,7 @@
 package com.newsapp.activities.main
 
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -8,8 +9,11 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.newsapp.R
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
+
+    var mStacks = HashMap<Int, Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,23 +31,22 @@ class MainActivity : AppCompatActivity() {
             )
         )
 
+        mStacks[R.id.navigation_home] = R.id.navigation_home
+
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         navView.setOnNavigationItemSelectedListener {
-            if (!it.isChecked) {
-                when (it.itemId) {
-                    R.id.navigation_search -> {
-                        findNavController(R.id.nav_host_fragment)
-                            .navigate(R.id.navigation_search)
-                    }
-
-                    R.id.navigation_home -> {
-                        findNavController(R.id.nav_host_fragment)
-                            .navigate(R.id.navigation_home)
-                    }
+            if(navView.selectedItemId != it.itemId) {
+                if (!mStacks.contains(it.itemId)) {
+                    navController.navigate(it.itemId)
+                    Log.d("Navigation", "Navigate to new tab")
+                } else {
+                    Log.d("Navigation", "Back stack to old tab")
+                    navController.popBackStack(it.itemId, false)
                 }
+                mStacks[it.itemId] = it.itemId
             }
-            false
+            true
         }
     }
 }

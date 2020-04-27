@@ -15,8 +15,10 @@ import com.newsapp.R
 import com.newsapp.helpers.HtmlImageGetter
 import com.newsapp.models.Post
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonNull.content
+import java.lang.Exception
 
 
 class DetailActivity : AppCompatActivity() {
@@ -34,16 +36,17 @@ class DetailActivity : AppCompatActivity() {
         this.title = post?.title
         viewModel = ViewModelProviders.of(this).get(DetailViewModel::class.java)
 
-        var thumb = findViewById<ImageView>(R.id.ThumbView)
-        Picasso.with(applicationContext).load(post!!.thumb).into(thumb)
+        try {
+            Picasso.with(applicationContext).load(post!!.thumb).into(ThumbView)
+        } catch (e: Exception) {
+            ThumbView.setImageResource(R.drawable.placeholder)
+        }
 
         viewModel.content.observe(this, Observer {
-            var htmlView = findViewById<TextView>(R.id.HtmlTextView)
-
-            htmlView.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                Html.fromHtml(it, Html.FROM_HTML_MODE_LEGACY, HtmlImageGetter(applicationContext, htmlView), null) as Spannable
+            HtmlTextView.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                Html.fromHtml(it, Html.FROM_HTML_MODE_LEGACY, HtmlImageGetter(applicationContext, HtmlTextView), null) as Spannable
             } else {
-                Html.fromHtml(content, HtmlImageGetter(applicationContext, htmlView), null) as Spannable
+                Html.fromHtml(content, HtmlImageGetter(applicationContext, HtmlTextView), null) as Spannable
             }
         })
 

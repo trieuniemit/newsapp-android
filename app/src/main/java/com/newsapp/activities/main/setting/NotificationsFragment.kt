@@ -26,6 +26,7 @@ class NotificationsFragment : Fragment() {
         notificationsViewModel.text.observe(this, Observer {
             textView.text = it
         })
+
         return root
     }
 }
