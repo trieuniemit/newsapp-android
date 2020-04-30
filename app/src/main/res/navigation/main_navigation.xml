@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_setting"
-        android:name="com.newsapp.activities.main.setting.NotificationsFragment"
+        android:name="com.newsapp.activities.main.setting.SettingFragment"
         android:label="@string/title_setting"
         tools:layout="@layout/fragment_setting" />
 </navigation>

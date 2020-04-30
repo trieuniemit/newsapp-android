@@ -1,5 +1,6 @@
 package com.newsapp.activities.main.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,31 +13,23 @@ import kotlin.reflect.KProperty
 
 
 class HomeViewModel : ViewModel() {
+    val headPosts = ArrayList<Post>()
 
-    private val _headlineArticles = MutableLiveData<ArrayList<Post>>().apply {
-        value = ArrayList()
-    }
-    val list: LiveData<ArrayList<Post>> = _headlineArticles
+    private val _articleCount = MutableLiveData<Int>()
+    val articleCount: LiveData<Int> = _articleCount
 
-    init {
-        doAsync {
-            getHeadlineArticles()
-        }
-    }
+    fun getHeadlineArticles() {
+        val res = RssReader.readRss(RSS_URL+ WORLD_NEWS)
 
-    private fun getHeadlineArticles() {
-        var headlineArticles = ArrayList<Post>()
+        val articleJSON = res!!.getJSONArray("item")
 
-        var res = RssReader.readRss(RSS_URL+ WORLD_NEWS)
-
-        var articleJSON = res!!.getJSONArray("item")
-
+        headPosts.clear()
         for (i in 0 until articleJSON.length() ) {
             val post = Post.fromJson(articleJSON.getJSONObject(i))
-            headlineArticles.add(post)
+            headPosts.add(post)
         }
-
-        _headlineArticles.postValue(headlineArticles)
+        Log.d("Load headline", "Count ${headPosts.count()}")
+        _articleCount.postValue(headPosts.count())
     }
 
 }

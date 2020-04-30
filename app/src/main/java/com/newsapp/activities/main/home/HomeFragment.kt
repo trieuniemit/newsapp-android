@@ -2,7 +2,6 @@ package com.newsapp.activities.main.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,41 +14,46 @@ import com.newsapp.adapters.LargeArticleAdapter
 import com.newsapp.models.Post
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.serialization.json.Json
+import org.jetbrains.anko.doAsync
 
 
 class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
 
-    private var listObserver = Observer<ArrayList<Post>> {
-        var adapter = LargeArticleAdapter(activity?.applicationContext!!, it)
-        HeadlineListView.adapter = adapter
-        adapter.notifyDataSetChanged()
+    lateinit var listAdapter: LargeArticleAdapter
 
-        if(it.count() > 0) {
-            LoadingProgressBar.visibility = View.INVISIBLE
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_home, container, false)
-
-        homeViewModel.list.observe(viewLifecycleOwner, listObserver)
-
-        return root
+        homeViewModel = ViewModelProviders.of(this, HomeViewModelFactory()).get(HomeViewModel::class.java)
+        return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        HeadlineListView.setOnItemClickListener { parent, view, position, id ->
-            var intent = Intent(context, DetailActivity::class.java)
+        listAdapter = LargeArticleAdapter(context!!, homeViewModel.headPosts)
 
-            var post = homeViewModel.list.value!![position]
-            intent.putExtra("post", Json.stringify(Post.serializer(), post))
+        HeadlineListView.apply {
+            adapter = listAdapter
 
-            this.startActivity(intent)
+            setOnItemClickListener { parent, view, position, id ->
+                var intent = Intent(context, DetailActivity::class.java)
+                var post = homeViewModel.headPosts[position]
+                intent.putExtra("post", Json.stringify(Post.serializer(), post))
+                activity!!.startActivity(intent)
+            }
+        }
+
+        homeViewModel.articleCount.observe(this, Observer {
+            if(it > 0) {
+                LoadingProgressBar.visibility = View.GONE
+                listAdapter.notifyDataSetChanged()
+            }
+        })
+
+        doAsync {
+            homeViewModel.getHeadlineArticles()
         }
     }
 }
