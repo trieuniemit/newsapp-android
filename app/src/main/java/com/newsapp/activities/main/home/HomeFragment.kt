@@ -15,6 +15,7 @@ import com.newsapp.models.Post
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.serialization.json.Json
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.runOnUiThread
 
 
 class HomeFragment : Fragment() {
@@ -48,7 +49,9 @@ class HomeFragment : Fragment() {
         homeViewModel.articleCount.observe(this, Observer {
             if(it > 0) {
                 LoadingProgressBar.visibility = View.GONE
-                listAdapter.notifyDataSetChanged()
+                activity?.runOnUiThread {
+                    listAdapter.notifyDataSetChanged()
+                }
             }
         })
 
