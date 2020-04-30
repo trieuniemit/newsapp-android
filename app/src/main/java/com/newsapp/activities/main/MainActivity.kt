@@ -9,11 +9,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.newsapp.R
-import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
-
-    var mStacks = HashMap<Int, Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,22 +28,8 @@ class MainActivity : AppCompatActivity() {
             )
         )
 
-        mStacks[R.id.navigation_home] = R.id.navigation_home
-
+        navController.currentDestination
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-        navView.setOnNavigationItemSelectedListener {
-            if(navView.selectedItemId != it.itemId) {
-                if (!mStacks.contains(it.itemId)) {
-                    navController.navigate(it.itemId)
-                    Log.d("Navigation", "Navigate to new tab")
-                } else {
-                    Log.d("Navigation", "Back stack to old tab")
-                    navController.popBackStack(it.itemId, false)
-                }
-                mStacks[it.itemId] = it.itemId
-            }
-            true
-        }
     }
 }

@@ -11,12 +11,15 @@ import android.view.LayoutInflater
 import android.widget.TextView
 import com.newsapp.R
 import android.graphics.BitmapFactory
+import com.squareup.picasso.Picasso
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.runOnUiThread
+import org.jetbrains.anko.uiThread
 import java.lang.Exception
 import java.net.URL
 
 
-class LargeArticleAdapter(context: Context, var articles: ArrayList<Post>): BaseAdapter() {
+class LargeArticleAdapter(val context: Context, var articles: ArrayList<Post>): BaseAdapter() {
 
     private val inflater = LayoutInflater.from(context)
 
@@ -32,15 +35,7 @@ class LargeArticleAdapter(context: Context, var articles: ArrayList<Post>): Base
         // thumbnail
         if(post.thumb.isNotEmpty()) {
             val thumb = view!!.findViewById<ImageView>(R.id.Thumbnail)
-            doAsync {
-                try {
-                    val img = URL(post.thumb).openStream()
-                    var bitmap = BitmapFactory.decodeStream(img)
-                    thumb.setImageBitmap(bitmap)
-                }catch (e: Exception) {
-                    Log.d("Large List", e.toString())
-                }
-            }
+            Picasso.with(context).load(post.thumb).into(thumb)
         }
 
         var title = view!!.findViewById<TextView>(R.id.PostTitle)
