@@ -6,8 +6,10 @@ import android.text.Html
 import android.text.Spannable
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -43,6 +45,22 @@ class DetailActivity : AppCompatActivity() {
         }
 
         viewModel.content.observe(this, Observer {
+            if(it.isEmpty()) {
+                return@Observer
+            }
+            if(it == "error") {
+                val dialog = AlertDialog.Builder(this)
+                dialog.setTitle(R.string.error)
+                dialog.setMessage(R.string.error_when_load_post)
+                dialog.setCancelable(false)
+                dialog.setNegativeButton(R.string.retry) { _, _ ->
+                    viewModel.getPostContent(post!!)
+                }
+                dialog.show()
+                return@Observer
+            }
+
+            progressBar.visibility = View.GONE
             HtmlTextView.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 Html.fromHtml(it, Html.FROM_HTML_MODE_LEGACY, HtmlImageGetter(applicationContext, HtmlTextView), null) as Spannable
             } else {
@@ -50,6 +68,7 @@ class DetailActivity : AppCompatActivity() {
             }
         })
 
+        TitleText.text = post?.title
         viewModel.getPostContent(post!!)
     }
 

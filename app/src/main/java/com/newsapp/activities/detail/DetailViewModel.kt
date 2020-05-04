@@ -11,19 +11,18 @@ import java.lang.Exception
 
 
 class DetailViewModel: ViewModel() {
-    private val _postContent = MutableLiveData<String>().apply {
-        value = ""
-    }
+    private val _postContent = MutableLiveData<String>()
     val content: LiveData<String> = _postContent
 
     fun getPostContent(post: Post) {
         doAsync {
             try {
-                var siteContent = Jsoup.connect(post.url).get()
-                var postContent = siteContent.getElementsByClass("vnnews-text-post")
+                val siteContent = Jsoup.connect(post.url).get()
+                val postContent = siteContent.getElementsByClass("vnnews-text-post")
                 _postContent.postValue(postContent.html())
             } catch (e: Exception) {
                 Log.d("Detail Error", e.toString())
+                _postContent.postValue("error")
             }
 
         }
