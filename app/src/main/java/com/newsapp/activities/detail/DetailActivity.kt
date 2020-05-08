@@ -61,6 +61,7 @@ class DetailActivity : AppCompatActivity() {
             }
 
             progressBar.visibility = View.GONE
+            Log.d("HTML: ", it)
             HtmlTextView.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 Html.fromHtml(it, Html.FROM_HTML_MODE_LEGACY, HtmlImageGetter(applicationContext, HtmlTextView), null) as Spannable
             } else {

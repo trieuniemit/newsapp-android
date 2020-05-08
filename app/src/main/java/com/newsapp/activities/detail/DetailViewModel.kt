@@ -19,7 +19,8 @@ class DetailViewModel: ViewModel() {
             try {
                 val siteContent = Jsoup.connect(post.url).get()
                 val postContent = siteContent.getElementsByClass("vnnews-text-post")
-                _postContent.postValue(postContent.html())
+                postContent.select(".inline-image").remove()
+                _postContent.postValue(postContent.html().replace("<p>&nbsp;</p>", ""))
             } catch (e: Exception) {
                 Log.d("Detail Error", e.toString())
                 _postContent.postValue("error")
