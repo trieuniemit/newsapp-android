@@ -10,23 +10,23 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.newsapp.R
 import com.newsapp.activities.detail.DetailActivity
+import com.newsapp.activities.main.MainActivity
 import com.newsapp.adapters.LargeArticleAdapter
 import com.newsapp.models.Post
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.serialization.json.Json
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.runOnUiThread
 
 
 class HomeFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
-
     lateinit var listAdapter: LargeArticleAdapter
+    private lateinit var homeViewModel: HomeViewModel
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        homeViewModel = ViewModelProviders.of(this, HomeViewModelFactory()).get(HomeViewModel::class.java)
+        homeViewModel = (activity as MainActivity).homeViewModel
+
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 

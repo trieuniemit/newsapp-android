@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.newsapp.activities.main.home.search.SearchFragment"
+        android:name="com.newsapp.activities.main.search.SearchFragment"
         android:label="@string/title_search"
         tools:layout="@layout/fragment_search" />
 

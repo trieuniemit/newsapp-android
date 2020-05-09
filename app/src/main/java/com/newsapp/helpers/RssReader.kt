@@ -19,7 +19,7 @@ class RssReader(var url: String) {
 
             val response = client.newCall(request.build()).execute()
 
-            var content = response.body()?.string()!!
+            val content = response.body()?.string()!!
 
             val xmlToJson = XmlToJson.Builder(content)
                 .skipTag("channel/description")
