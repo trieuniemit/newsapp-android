@@ -15,7 +15,7 @@ import kotlin.collections.ArrayList
 
 class SearchViewModel : ViewModel() {
 
-    val posts = ArrayList<Post>()
+    val posts = ArrayList<Post>() 
 
     private val _postsLoaded = MutableLiveData<Boolean>()
     val postsLoaded: LiveData<Boolean> = _postsLoaded

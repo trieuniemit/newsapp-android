@@ -22,4 +22,8 @@
         android:name="com.newsapp.activities.main.setting.SettingFragment"
         android:label="@string/title_setting"
         tools:layout="@layout/fragment_setting" />
+    <fragment
+        android:id="@+id/navigation_category"
+        android:name="com.newsapp.activities.main.category.CategoryFragment"
+        android:label="@string/title_category" />
 </navigation>

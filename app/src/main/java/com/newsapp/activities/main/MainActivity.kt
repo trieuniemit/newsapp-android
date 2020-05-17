@@ -10,6 +10,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.newsapp.R
+import com.newsapp.activities.main.category.CategoryViewModel
 import com.newsapp.activities.main.home.HomeViewModel
 import com.newsapp.activities.main.home.HomeViewModelFactory
 import com.newsapp.activities.main.search.SearchViewModel
@@ -17,6 +18,7 @@ import com.newsapp.activities.main.search.SearchViewModel
 class MainActivity : AppCompatActivity() {
     lateinit var searchViewModel: SearchViewModel
     lateinit var homeViewModel: HomeViewModel
+    lateinit var catViewModel: CategoryViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home,
+                R.id.navigation_category,
                 R.id.navigation_search,
                 R.id.navigation_setting
             )
@@ -40,6 +43,7 @@ class MainActivity : AppCompatActivity() {
 
         // init view model
         searchViewModel = ViewModelProviders.of(this).get(SearchViewModel::class.java)
+        catViewModel = ViewModelProviders.of(this).get(CategoryViewModel::class.java)
         homeViewModel = ViewModelProviders.of(this, HomeViewModelFactory()).get(HomeViewModel::class.java)
     }
 }

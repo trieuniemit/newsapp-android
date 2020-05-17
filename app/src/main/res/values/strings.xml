@@ -8,4 +8,5 @@
     <string name="error">Error</string>
     <string name="error_when_load_post">Error when load post. Please try again later.</string>
     <string name="retry">Retry</string>
+    <string name="title_category">Danh mục</string>
 </resources>
