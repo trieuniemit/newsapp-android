@@ -9,7 +9,7 @@ import com.newsapp.constants.WORLD_NEWS
 import com.newsapp.helpers.RssReader
 import com.newsapp.models.Post
 
-class CategoryViewModel : ViewModel() {
+class CategoryViewModel {
 
     private val _articleCount = MutableLiveData<ArrayList<Post>>()
     val articleCount: LiveData<ArrayList<Post>> = _articleCount

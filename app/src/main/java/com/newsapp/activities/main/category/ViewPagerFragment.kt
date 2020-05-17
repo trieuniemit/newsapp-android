@@ -17,7 +17,7 @@ import com.newsapp.models.Post
 import kotlinx.serialization.json.Json
 import org.jetbrains.anko.doAsync
 
-class ViewPagerFragment(val viewModel: CategoryViewModel, val position: Int): Fragment() {
+class ViewPagerFragment(val position: Int): Fragment() {
 
     private val paths = arrayListOf(
         "agriculture.rss",
@@ -33,6 +33,7 @@ class ViewPagerFragment(val viewModel: CategoryViewModel, val position: Int): Fr
     lateinit var loadingProgressBar: ProgressBar
     lateinit var listAdapter: LargeArticleAdapter
     lateinit var listView: ListView
+    private val viewModel = CategoryViewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
@@ -46,6 +47,7 @@ class ViewPagerFragment(val viewModel: CategoryViewModel, val position: Int): Fr
         Log.d("ViewPagerFragment", "Setup list $position")
 
         listAdapter = LargeArticleAdapter(requireContext(), posts)
+        posts.clear()
 
         listView.apply {
             adapter = listAdapter
@@ -60,6 +62,7 @@ class ViewPagerFragment(val viewModel: CategoryViewModel, val position: Int): Fr
 
         viewModel.articleCount.observe(this, Observer {
             if(it.count() > 0) {
+                posts.clear()
                 posts.addAll(it)
                 loadingProgressBar.visibility = View.GONE
                 activity?.runOnUiThread {

@@ -18,7 +18,6 @@ import com.newsapp.activities.main.search.SearchViewModel
 class MainActivity : AppCompatActivity() {
     lateinit var searchViewModel: SearchViewModel
     lateinit var homeViewModel: HomeViewModel
-    lateinit var catViewModel: CategoryViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +42,6 @@ class MainActivity : AppCompatActivity() {
 
         // init view model
         searchViewModel = ViewModelProviders.of(this).get(SearchViewModel::class.java)
-        catViewModel = ViewModelProviders.of(this).get(CategoryViewModel::class.java)
         homeViewModel = ViewModelProviders.of(this, HomeViewModelFactory()).get(HomeViewModel::class.java)
     }
 }

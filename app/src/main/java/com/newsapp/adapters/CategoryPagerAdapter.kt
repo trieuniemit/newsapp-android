@@ -4,14 +4,15 @@ package com.newsapp.adapters
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.lifecycle.ViewModelProviders
 import com.newsapp.activities.main.category.CategoryViewModel
 import com.newsapp.activities.main.category.ViewPagerFragment
 import com.newsapp.activities.main.home.HomeFragment
 
-class CategoryPagerAdapter(fm: FragmentManager, private val viewModel: CategoryViewModel) : FragmentPagerAdapter(fm) {
+class CategoryPagerAdapter(fm: FragmentManager, val frg: Fragment) : FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
-        return ViewPagerFragment(viewModel, position)
+        return ViewPagerFragment(position)
     }
 
     override fun getPageTitle(position: Int): CharSequence = when (position) {
