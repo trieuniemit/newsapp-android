@@ -2,6 +2,7 @@ package com.newsapp.activities.main.category
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,8 +43,9 @@ class ViewPagerFragment(val viewModel: CategoryViewModel, val position: Int): Fr
     }
 
     private fun setupList() {
+        Log.d("ViewPagerFragment", "Setup list $position")
+
         listAdapter = LargeArticleAdapter(requireContext(), posts)
-        posts.clear()
 
         listView.apply {
             adapter = listAdapter
