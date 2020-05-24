@@ -7,6 +7,7 @@ import android.text.Spannable
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -31,6 +32,8 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
+        window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         val postJson = intent?.getStringExtra("post")
         post = Json.parse(Post.serializer(), postJson!!)
