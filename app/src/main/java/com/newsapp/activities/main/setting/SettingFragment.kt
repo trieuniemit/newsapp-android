@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -51,6 +52,20 @@ class SettingFragment : Fragment() {
 
         switchAlwaysScreen.setOnClickListener {
             saveAwaysScreen(switchAlwaysScreen.isChecked)
+        }
+
+        val frNotify = sharedPref.getInt("frequency_notification", 0)
+        frequencyNotification.setSelection(frNotify)
+
+
+        frequencyNotification.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                sharedPref.edit().putInt("frequency_notification", position).apply()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+
+            }
         }
     }
 
